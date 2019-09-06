@@ -38,8 +38,10 @@ $(document).ready(function(){
     $("#historialMovimientos").click(function(event){
         $("#contenido").load('tablas/historialMovimientos.php');
     });
-
-        
+    // Chat
+    $("#mensajes").click(function(event){
+        $("#contenido").load('tablas/chat.php');
+    });
 
     
 });

@@ -6,11 +6,10 @@
   include_once("../class/class-usuario.php");
 
   // Clase persona
-  $conexion = new Conexion();
 
-  if($_POST['insertar-usuario']){  //// Ingresa datos del los usuarios
 
-         
+
+         $conexion = new Conexion();
 
         $PrimerNombre = $_POST["PrimerNombre"];
         $SegundoNombre =  $_POST["SegundoNombre"];
@@ -67,18 +66,10 @@
             echo '<script language="javascript">alert("Insertado Correctamente");</script>'; 
             header('location: ../administrador.php');
           }else{
-            echo '<script language="javascript">alert("Error inesperado");</script>'; 
+            echo "Error2";
           }
         }
-
-
-
-
-      }elseif($_POST['Obtener-notificaciones']){  //// Actualizar Usuario
-        
-      
-        
-      }
+   
     
 
   

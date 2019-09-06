@@ -34,14 +34,10 @@ include("class/class-conexion.php");
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 
-<<<<<<< HEAD
- 
-=======
   <link href="tablas/mselect/chosen.min.css" rel="stylesheet">
   <script type="text/javascript" src="tablas/mselect/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="tablas/mselect/chosen.jquery.min.js"></script>
   <script src="js/push.min.js"></script>
->>>>>>> 2789052f5bc780e4d51a851a5dbd525ee4d633be
 </head>
 
 <body id="page-top" style="overflow-y:visible">
@@ -78,33 +74,65 @@ include("class/class-conexion.php");
 
 
       <li class="nav-item">
+     
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTrwo" aria-expanded="true" aria-controls="collapseTrwo">
           <i class="fas fa-fw fa-tachometer-alt"></i>
+          
           <span>Reportes</span>
+         
+          
+              <?php
+              
+                $conec = new Conexion();
+                
+                $sql = "SELECT COUNT(id_reportes)as reportes FROM `tbl_reportes` WHERE id_estado_reporte=1 ";
+
+                $resultado = $conec->ejecutarConsulta($sql);
+
+                foreach($resultado as $res){
+                   $reportes = $res['reportes'];
+                
+                    echo '
+                        
+                    <!-- Counter - Alerts -->
+                    <span class="badge badge-danger badge-counter">';
+                    
+                    echo (int)$reportes . '</span>
+                      
+
+
+                    ';
+                 }
+              ?>
+            
         </a>
+        
         <div id="collapseTrwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          
+         
           <div class="bg-white py-2 collapse-inner rounded">
             <!-- <h6 class="collapse-header">Custom Components:</h6> -->
+            
             <?php   
+
                 if ($_SESSION['tipo_usuario'] == 1){
                   echo '
                 
                   <a class="collapse-item" href="adminReporte.php" >Ver Reportes</a>';
                 }
+
             ?>
+            
+            
             <a class="collapse-item" id="crear_reporte" ><i class="fas fa-plus"></i>Crear Reportes</a>
             
-     
-
-     
-           
             
-          </div>
+             </div>
+          
         </div>
       </li>
 
        
-
      
       <!-- Nav Item - Usuarios Collapse Menu -->
       
@@ -272,12 +300,12 @@ include("class/class-conexion.php");
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                  Notificaciones
+                  Mensajes
                 </h6>';
 
                 if ($reportes>=1){
                 echo '
-                <a class="dropdown-item d-flex align-items-center" href="adminReporte.php">
+                <a class="dropdown-item d-flex align-items-center" href="tablas/chat.php">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -290,19 +318,9 @@ include("class/class-conexion.php");
                 </a>';}
 
                 echo '
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">Junio 7, 2019</div>
-                    Computadora 5 reparada.
-                  </div>
-                </a>
+               
                 
-                <a class="dropdown-item text-center small text-gray-500" href="adminReporte.php">Mostrar todas las notificaciones</a>
+                <a class="dropdown-item text-center small text-gray-500" href="tablas/chat.php">Mostrar todos los Mensajes</a>
               </div>
             </li>
 

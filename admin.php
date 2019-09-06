@@ -1,16 +1,12 @@
 <?php
 include("class/class-conexion.php");
-include("function.php");
 
  session_start();
- 
 
- if($_SESSION['tipo_usuario']==2 ) { // CUALQUIER USUARIO REGISTRADO PUEDE VER ESTA PAGINA
+ if($_SESSION['status']==false) { // CUALQUIER USUARIO REGISTRADO PUEDE VER ESTA PAGINA
       session_destroy();
      header("Location: login.php");
  }
-
- 
  ?>
 
 <!DOCTYPE html>
@@ -28,18 +24,11 @@ include("function.php");
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-
-  <link href="tablas/mselect/chosen.min.css" rel="stylesheet">
-  <script type="text/javascript" src="tablas/mselect/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="tablas/mselect/chosen.jquery.min.js"></script>
-  <script src="js/push.min.js"></script>
-  
 </head>
 
 <body id="page-top" style="overflow-y:visible">
@@ -57,89 +46,36 @@ include("function.php");
         </div>
         <div class="sidebar-brand-text mx-3">Inventario IS</div>
       </a>
- <br>
+
       <!-- Divider -->
-      <!-- Divider -->
-     <!-- Divider -->
-     <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider my-0">
 
-<!-- Heading -->
-<div class="sidebar-heading">
-  Interfaz
-</div>
-<!-- Divider -->
-<hr class="sidebar-divider my-0">
-
-
-<!-- Nav Item - Dashboard -->
-
-
-
-
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTrwo" aria-expanded="true" aria-controls="collapseTrwo">
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="admin.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          
-          <span>Reportes</span>
-         
-          
-              <?php
-              
-                $conec = new Conexion();
-                
-                $sql = "SELECT COUNT(id_reportes)as reportes FROM `tbl_reportes` WHERE id_estado_reporte=1 ";
-
-                $resultado = $conec->ejecutarConsulta($sql);
-
-                foreach($resultado as $res){
-                   $reportes = $res['reportes'];
-                
-                    echo '
-                        
-                    <!-- Counter - Alerts -->
-                    <span class="badge badge-danger badge-counter">';
-                    
-                    echo (int)$reportes . '</span>
-                      
-
-
-                    ';
-                 }
-              ?>
-            
-        </a>
-        <div id="collapseTrwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <!-- <h6 class="collapse-header">Custom Components:</h6> -->
-            <?php   
-                if ($_SESSION['tipo_usuario'] == 1){
-                  echo '
-                
-                  <a class="collapse-item" href="adminReporte.php" >Ver Reportes</a>';
-                }
-            ?>
-            <a class="collapse-item" id="crear_reporte" ><i class="fas fa-plus"></i>Crear Reportes</a>
-            
-     
-
-     
-           
-            
-          </div>
-        </div>
+          <span>Crear Reporte</span></a>
       </li>
 
-       
-
-     
-      <!-- Nav Item - Usuarios Collapse Menu -->
-      
-<?php   
+      <?php   
       if ($_SESSION['tipo_usuario'] == 1){
-        echo '
-       
-       
-      
+        echo '<li class="nav-item active">
+        <a class="nav-link" href="adminReporte.php">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Reportes</span></a>
+      </li>';
+      }
+      ?>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Usuarios Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-users"></i>
@@ -147,17 +83,16 @@ include("function.php");
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Usuarios:</h6>
+            <!-- <h6 class="collapse-header">Custom Components:</h6> -->
             <a class="collapse-item" id="administradores">Administradores</a>
-            <a class="collapse-item" id="Instructores">Instructores</a>
+            <a class="collapse-item" id="estudiantes">Estudiantes</a>
+            <a class="collapse-item" id="instructores">Instructores</a>
             <a class="collapse-item" id="registro"><i class="fas fa-plus"></i>Nuevo usuario</a>
             
           </div>
         </div>
       </li>
 
-      ';
-    } ?>
       <!-- Nav Item - Inventario Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInv" aria-expanded="true" aria-controls="collapseInv">
@@ -166,12 +101,10 @@ include("function.php");
         </a>
         <div id="collapseInv" class="collapse" aria-labelledby="headingInv" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Equipos:</h6>
+            <h6 class="collapse-header">Artículos:</h6>
             
             <a class="collapse-item" id="equiposDisponibles" >Equipos Disponibles</a>
-            <a class="collapse-item" id="historialMovimientos" >Historial de Movimientos</a>
-            <a class="collapse-item" id="añadirEquipos" ><i class="fas fa-plus"></i> Añadir Equipos</a>
-
+            <a class="collapse-item" id="añadirEquipos" ><i class="fas fa-plus"></i> Añadir Equipos</a>           
           </div>
         </div>        
       </li>
@@ -273,74 +206,61 @@ include("function.php");
                 </form>
               </div>
             </li>
-<?php   
-      if ($_SESSION['tipo_usuario'] == 1){
-        $conec = new Conexion();
-      
-        $sql = "SELECT COUNT(id_reportes)as reportes FROM `tbl_reportes` WHERE id_estado_reporte=1 ";
 
-        $resultado = $conec->ejecutarConsulta($sql);
-
-        foreach($resultado as $res){
-          $reportes = $res['reportes'];
-        
-        echo '
             <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">';
-                
-                echo (int)$reportes . '</span>
+                <span class="badge badge-danger badge-counter">2</span>
               </a>
-
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                  Mensajes
-                </h6>';
-
-                if ($reportes>=1){
-                echo '
-                <a class="dropdown-item d-flex align-items-center" href="tablas/chat.php">
+                  Notificaciones
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">Agosto 28, 2019</div>
-                    <span class="font-weight-bold" >Tienes Reportes sin Revisar</span>
+                    <div class="small text-gray-500">Diciembre 12, 2019</div>
+                    <span class="font-weight-bold">aaa</span>
                   </div>
-                </a>';}
-
-                echo '
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-success">
+                      <i class="fas fa-donate text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">Junio 7, 2019</div>
+                    Computadora 5 reparada.
+                  </div>
+                </a>
                 
-                
-                <a class="dropdown-item text-center small text-gray-500" href="tablas/chat.php" >Mostrar todos los Mensajes</a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas las notificaciones</a>
               </div>
             </li>
 
-            <div class="topbar-divider d-none d-sm-block"></div>
-            ';
-            }
-          }
-?>
             
+
+            <div class="topbar-divider d-none d-sm-block"></div>
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['nombre']; ?></span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nombre Apellido</span>
                 <i class="fas fa-user fa-sm fa-fw mr-2 fa-1x text-gray-500"></i>
                 
               </a>
               <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" >
-                <a class="dropdown-item" class="modal-dialog modal-lg"  data-target="#logoutModal2" data-toggle="modal">
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  
                   Perfil
                 </a>
                 <a class="dropdown-item" href="#">
@@ -352,7 +272,7 @@ include("function.php");
                   Registro de actividad
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="login.php" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Cerrar sesión
                 </a>
@@ -468,7 +388,7 @@ include("function.php");
 
     
 
-            <div class="col-lg-12 mb-4">
+            <div class="col-lg-10 mb-4">
 
              
 
@@ -476,37 +396,42 @@ include("function.php");
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h2 class="m-0 font-weight-bold text-primary">Reportes</h2>
-<!-- 
-                  <form class="form" action="function.php" method="post">
-                    <select class="form-control col-lg-4" name="tipo">
-                      <option value="1"> En revision </option>  
-                      <option value="2"> Aceptados </option>    
-                      <option value="3"> Rechazados </option>          
-                    </select>
-                    <input type="submit" class="btn btn-primary mb-2" value="submit">   
-                  </form> -->
                 </div>
                 <div class="card-body">
 
-               <!--Aqui vamos a poner todos los reportes ----------------------------
-               -----------------------------------------------------------
-               ------------------------------------------------------------
-               -------------------------------------------------
-               -------------------------------------------------------
-               -----------------------------------------------------
-               ---------------------------------------------------->
+                  <form class="form" action="agregarReporte.php" method="post">
+                      <div class="form-group">
+                            <label for="titulo">Titulo</label>
+                            <input type="text" class="form-control" placeholder="Asunto" id="titulo" name="titulo">
+                       </div>
+                        
+                       <div class="form-group">
+                        <select class="form-control" name="tipo">
+                             <option value="" disabled="disabled" selected> Seleccione el tipo Reporte</option>
+                             <option value="1">Estado de Equipos</option>
+                             <option value="2">Solicitudes de Equipo</option>
+                             
+                         </select>
+                       </div>
 
-              <?php
-                $conec = new Conexion();
-                global $post_por_pagina;
-                $post_por_pagina = 3;
-                obtener_post($post_por_pagina, $conec);
-    
+                       <div class="form-group">
+                            <label for="reporte">Escribir Reporte</label>
+                            <textarea class="form-control" id="reporte" rows="3" name="reporte"></textarea>
+                       </div>
+                        
+                       <label for='fecha'>fecha actual</label>
+                       <input type="text" id='fecha' name="fecha" value=" <?php 
+                             echo date('Y').'-'.date('m').'-'.date('d'); ?>" readonly>
+                    
+                    <div class="form-group">
+                        <br>
+                            <input type="submit" class="btn btn-primary mb-2" value="Ingresar">
+                       </div>
+                       
+                        
 
-                require('paginacion.php');
-              ?>
 
-
+                    </form>
                 </div>
               </div>
 
@@ -539,30 +464,6 @@ include("function.php");
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  
-<div class="modal fade" id="logoutModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">  <!-- cambiar id a la ventana modal-->
-    <div class="modal-dialog modal-lg" role="document">
-    <style type="text/css">
- .modal-lg {
-    max-width: 70%;
-}
-  </style>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Perfil</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-     <?php
-include('modalperfil.php');
-?>
-        
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -602,7 +503,7 @@ include('modalperfil.php');
 
   <script src="js/configuraciones.js"></script>
 
- 
+
 </body>
 
 </html>

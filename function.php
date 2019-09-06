@@ -1,10 +1,10 @@
 <?php
 if ($_POST){
-    include("../class/class-conexion.php");
+    include("class/class-conexion.php");
     $conec = new Conexion();
 
 
-    if($_POST['actualizar']){ // Actualizar
+    if($_POST['actualizar']){
         $id = $_POST['idd'];
        $tipo = (int)$_POST['tipo'];
         
@@ -15,22 +15,35 @@ if ($_POST){
     $resultado = $conec->ejecutarConsulta($sql);
 
         header("Status: 301 Moved Permanently");
-        header("Location: ../adminReporte.php");
+        header("Location: adminReporte.php");
         // PONER LA DIRECCION REAL, QUITARL EL INVENTARIO 02 A SOLO INVENTARIO 
 
  
     }
-    if ($_POST['borrar']) { // Borrar 
+    if ($_POST['borrar']) {
       $id = $_POST['idd'];
       $sql = "DELETE FROM tbl_reportes 
       WHERE id_reportes = $id";
       $resultado = $conec -> ejecutarConsulta($sql);
 
       header("Status: 301 Moved Permanently");
-      header("Location: ../adminReporte.php");
+      header("Location: adminReporte.php");
     }
 
-    
+    if ($_POST['Ver Chat']) {
+      $id = $_POST['idd'];
+      $id2 = $_SESSION['id_persona_usuario'];
+      $sql = "SELECT a.contenido_mensaje, b.nombre_usuario 
+      FROM tbl_mensajes a, tbl_usuarios b
+      WHERE a.id_persona_usuario_envia=b.id_persona_usuario
+      and a.id_persona_usuario_envia='.$id.'
+      and a.id_persona_usuario_recibe='.$id2.'";
+      
+      $resultado = $conec -> ejecutarConsulta($sql);
+
+      header("Status: 301 Moved Permanently");
+      header("Location: tablas/chat.php");
+    }
    
 }
 
@@ -95,7 +108,7 @@ function obtener_post($post_por_pagina,$conec){
         </thead>
         <tbody>
           <tr>
-          <form class="form" action="ajax/acciones-reporte.php" method="post">
+          <form class="form" action="function.php" method="post">
             <th scope="row"> <input type="text"  readonly  size="2" name="idd" value="'.$res['id_reportes'].'">' . $res['tipo_reporte']. '</th>
             <td> '. $res['fecha_reporte']. '</td>
             <td> '. $res['contenido_reporte']. '</td>
