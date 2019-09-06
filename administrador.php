@@ -34,10 +34,14 @@ include("class/class-conexion.php");
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 
+<<<<<<< HEAD
+ 
+=======
   <link href="tablas/mselect/chosen.min.css" rel="stylesheet">
   <script type="text/javascript" src="tablas/mselect/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="tablas/mselect/chosen.jquery.min.js"></script>
   <script src="js/push.min.js"></script>
+>>>>>>> 2789052f5bc780e4d51a851a5dbd525ee4d633be
 </head>
 
 <body id="page-top" style="overflow-y:visible">

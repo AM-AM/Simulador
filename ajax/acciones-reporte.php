@@ -1,10 +1,10 @@
 <?php
 if ($_POST){
-    include("class/class-conexion.php");
+    include("../class/class-conexion.php");
     $conec = new Conexion();
 
 
-    if($_POST['actualizar']){
+    if($_POST['actualizar']){ // Actualizar
         $id = $_POST['idd'];
        $tipo = (int)$_POST['tipo'];
         
@@ -15,19 +15,19 @@ if ($_POST){
     $resultado = $conec->ejecutarConsulta($sql);
 
         header("Status: 301 Moved Permanently");
-        header("Location: adminReporte.php");
+        header("Location: ../adminReporte.php");
         // PONER LA DIRECCION REAL, QUITARL EL INVENTARIO 02 A SOLO INVENTARIO 
 
  
     }
-    if ($_POST['borrar']) {
+    if ($_POST['borrar']) { // Borrar 
       $id = $_POST['idd'];
       $sql = "DELETE FROM tbl_reportes 
       WHERE id_reportes = $id";
       $resultado = $conec -> ejecutarConsulta($sql);
 
       header("Status: 301 Moved Permanently");
-      header("Location: adminReporte.php");
+      header("Location: ../adminReporte.php");
     }
 
     
@@ -61,7 +61,7 @@ function obtener_post($post_por_pagina,$conec){
                 INNER JOIN tbl_personas AS T5
                 ON T4.id_persona_usuario = T5.id_persona
              
-                ORDER BY T1.id_reportes DESC LIMIT $inicio, $post_por_pagina";
+                ORDER BY T1.fecha_reporte DESC LIMIT $inicio, $post_por_pagina";
     $resultado = $conec->ejecutarConsulta($sql);
     foreach ($resultado as $res) {
         // echo print_r($res);
@@ -95,7 +95,7 @@ function obtener_post($post_por_pagina,$conec){
         </thead>
         <tbody>
           <tr>
-          <form class="form" action="function.php" method="post">
+          <form class="form" action="ajax/acciones-reporte.php" method="post">
             <th scope="row"> <input type="text"  readonly  size="2" name="idd" value="'.$res['id_reportes'].'">' . $res['tipo_reporte']. '</th>
             <td> '. $res['fecha_reporte']. '</td>
             <td> '. $res['contenido_reporte']. '</td>

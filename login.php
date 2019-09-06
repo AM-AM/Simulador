@@ -16,7 +16,7 @@
       <div class="login-form">
         <input type="text" class="form-control" placeholder="Usuario" id="txt-Usuario"/>
         <input type="password" class="form-control" placeholder="Contraseña" id="txt-Password"/>
-        <button class="btn btn-primary" id="btn-iniciar-sesion" onclick="iniciarSesion();">Iniciar Sesion</button>
+        <button class="btn btn-primary" id="iniciar"  onclick="iniciarSesion();">Iniciar Sesion</button>
         <div id="status"></div>
         <br><br>
         <a href="forgot-password.html" style="color: #F0F8FF;">Olvidé mi contraseña</a> <br>
@@ -29,4 +29,5 @@
   </body>
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/controladores/sesion.js"></script>
+
 </html>

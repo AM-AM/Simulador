@@ -1,6 +1,6 @@
 <?php
 include("class/class-conexion.php");
-include("function.php");
+include("ajax/acciones-reporte.php");
 
  session_start();
  
