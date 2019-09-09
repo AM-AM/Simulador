@@ -39,8 +39,9 @@ $(document).ready(function(){
         $("#contenido").load('tablas/historialMovimientos.php');
     });
     // Chat
-    $("#mensajes").click(function(event){
-        $("#contenido").load('tablas/chat.php');
+    $("#id_envia").click(function(event){
+        header("Status: 301 Moved Permanently");
+        header("Location: tablas/chat.php");
     });
 
     

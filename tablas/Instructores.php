@@ -52,6 +52,8 @@
                   <td> <input type="submit" class="btn btn-danger mb-2" value="Borrar" name="borrar"> </td>
                   <td> <input type="submit" class="btn btn-primary mb-2" value="Ver Chat" name="chat"></td>
                   
+                  
+                 
                    </tr>
               </form>
                 </tr>';

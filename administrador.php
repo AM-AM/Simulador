@@ -82,7 +82,7 @@ include("class/class-conexion.php");
          
           
               <?php
-              
+              if ($_SESSION['tipo_usuario'] == 1){
                 $conec = new Conexion();
                 
                 $sql = "SELECT COUNT(id_reportes)as reportes FROM `tbl_reportes` WHERE id_estado_reporte=1 ";
@@ -103,6 +103,7 @@ include("class/class-conexion.php");
 
                     ';
                  }
+                }
               ?>
             
         </a>
@@ -275,7 +276,10 @@ include("class/class-conexion.php");
                 </form>
               </div>
             </li>
-<?php   
+
+
+
+            <?php   
       if ($_SESSION['tipo_usuario'] == 1){
         $conec = new Conexion();
       
@@ -300,12 +304,12 @@ include("class/class-conexion.php");
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                  Mensajes
+                  Notificaciones
                 </h6>';
 
                 if ($reportes>=1){
                 echo '
-                <a class="dropdown-item d-flex align-items-center" href="tablas/chat.php">
+                <a class="dropdown-item d-flex align-items-center" href="adminReporte.php">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -318,9 +322,19 @@ include("class/class-conexion.php");
                 </a>';}
 
                 echo '
-               
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-success">
+                      <i class="fas fa-donate text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">Junio 7, 2019</div>
+                    Computadora 5 reparada.
+                  </div>
+                </a>
                 
-                <a class="dropdown-item text-center small text-gray-500" href="tablas/chat.php">Mostrar todos los Mensajes</a>
+                <a class="dropdown-item text-center small text-gray-500" href="adminReporte.php">Mostrar todas las notificaciones</a>
               </div>
             </li>
 
@@ -328,6 +342,59 @@ include("class/class-conexion.php");
             ';
             }
           }
+?>
+            
+ <?php   
+
+
+  $conec = new Conexion();
+      
+  $id_recive = $_SESSION['id_persona_usuario'];
+
+  $sql = "SELECT b.nombre_usuario as nombre, a.id_persona_usuario_envia as id_envia, a.contenido_mensaje as mensaje, a.asunto_mensaje as asunto, a.fecha_mensaje as fecha
+  FROM tbl_mensajes a ,tbl_usuarios b 
+  WHERE a.id_persona_usuario_envia = b.id_persona_usuario
+  and a.id_estado_mensaje = 2
+  and a.id_persona_usuario_recibe = $id_recive
+  ";
+
+  $sql1 = "SELECT count(a.contenido_mensaje) as c_mensajes
+  FROM tbl_mensajes a ,tbl_usuarios b 
+  WHERE a.id_persona_usuario_envia = b.id_persona_usuario
+  and a.id_estado_mensaje = 2
+  and a.id_persona_usuario_recibe = $id_recive";
+
+$resultado = $conec->ejecutarConsulta($sql);
+$resultado1 = $conec->ejecutarConsulta($sql1);
+
+foreach($resultado1 as $res1){
+       echo' <!-- Nav Item - Alerts -->
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+            <i class="fa fa-envelope"></i>
+            <!-- Counter - Alerts -->
+            <span class="badge badge-danger badge-counter">'.(int)$res1['c_mensajes'].'</span>
+          </a>
+          
+          <!-- Dropdown - Alerts -->
+          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">
+              Mensajes
+            </h6>';
+        }
+        foreach($resultado as $res){
+          echo '
+            <a class="dropdown-item d-flex align-items-center" href="tablas/chat.php?id='.$res['id_envia'].'" >
+              <div>
+                <div class="small text-gray-500">'.$res['nombre']."  /  ".$res['fecha'].'</div>
+                <span class="font-weight-bold" >'.$res['mensaje'].'</span>
+              </div>
+            </a>
+        ';
+        }
+                    
+
 ?>
             
 
